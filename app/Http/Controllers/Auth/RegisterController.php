@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Http\Requests\RegisterFormRequest;
 use DB;
 
 use App\Models\Users\Subjects;
@@ -68,6 +69,33 @@ class RegisterController extends Controller
             $birth_day = date('Y-m-d', strtotime($data));
             $subjects = $request->subject;
 
+            // 比較用の本日日付（YYYYMMDD）を取得
+            $today = date("Ymd");
+            // 比較用の基準日（2000/1/1）を設定
+            $start_date = '20000101';
+            $old_date = $old_year .$old_month .$old_day;
+            $request->validate([
+                'over_name' => 'required|string|max:10',
+                'under_name' => 'required|string|max:10',
+                'over_name_kana' => 'required|string|katakana|max:30',
+                'under_name_kana' => 'required|string|katakana|max:30',
+                'mail_address' => 'required|email|max:100',
+                'sex' => 'required|between:1,3',
+                'old_date' => 'date|before:today|after:start_date',
+                'old_year'  => 'required_with:old_month,old_day',
+                'old_month' => 'required_with:old_year,old_day',
+                'old_day'   => 'required_with:old_year,old_month',
+                'role' => 'required|between:1,4',
+                'password' => 'required|min:8|max:30',
+              ],
+              [
+                'over_name.max' => '姓は10文字以内で入力してください。',
+                'under_name.max' => '名は10文字以内で入力してください。',
+                'over_name_kana.max' => 'セイは30文字以内で入力してください。',
+                'under_name_kana.max' => 'メイは30文字以内で入力してください。',
+                'password.min' => 'パスワードは8文字以上で入力してください。',
+                'password.max' => 'パスワードは30文字以内で入力してください。',
+            ]);
             $user_get = User::create([
                 'over_name' => $request->over_name,
                 'under_name' => $request->under_name,
