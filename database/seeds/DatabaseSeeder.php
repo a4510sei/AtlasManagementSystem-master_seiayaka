@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         //シードファイル呼び出し処理
         $this->call(UsersTableSeeder::class);
-        $this->call(SubjectsTableSeeder::class);
+        // $this->call(SubjectsTableSeeder::class);
 
     }
 }

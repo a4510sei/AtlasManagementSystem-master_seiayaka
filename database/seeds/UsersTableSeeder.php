@@ -23,11 +23,11 @@ class UsersTableSeeder extends Seeder
             'mail_address' => 'TanakaI@mail.com',
             // sex:1(男性)、2(女性)、3(その他)
             'sex' => '1',
-            // birth_day:YYYY-MM-DD
+            // birth_day:YYYYMMDD
             'birth_day' => '19990101',
             // 1(講師(国語))、2(講師(数学))、3(教師(英語))、4(生徒)
             'role' => '4',
-            'password' => 'pass1234',
+            'password' => Hash::make('pass1234'),
             ],
         ]);
 
