@@ -23,12 +23,32 @@
                 <div class="register_form">
                     <div class="d-flex mt-3" style="justify-content:space-between">
                         <div class="" style="width:140px">
+                            <div class="error_message">
+                                @if ($errors->has('over_name'))
+                                    <tr>
+                                      <th>ERROR</th>
+                                      @foreach($errors->get('over_name') as $message)
+                                      <td> {{ $message }} </td>
+                                      @endforeach
+                                    </tr>
+                                @endif
+                            </div>
                             <label class="d-block m-0" style="font-size:13px">姓</label>
                             <div class="border-bottom border-primary" style="width:140px;">
                                 <input type="text" style="width:140px;" class="border-0 over_name" name="over_name">
                             </div>
                         </div>
                         <div class="" style="width:140px">
+                            <div class="error_message">
+                                @if ($errors->has('under_name'))
+                                    <tr>
+                                      <th>ERROR</th>
+                                      @foreach($errors->get('under_name') as $message)
+                                      <td> {{ $message }} </td>
+                                      @endforeach
+                                    </tr>
+                                @endif
+                            </div>
                             <label class=" d-block m-0" style="font-size:13px">名</label>
                             <div class="border-bottom border-primary" style="width:140px;">
                                 <input type="text" style="width:140px;" class="border-0 under_name"
@@ -38,6 +58,16 @@
                     </div>
                     <div class="d-flex mt-3" style="justify-content:space-between">
                         <div class="" style="width:140px">
+                            <div class="error_message">
+                                @if ($errors->has('over_name_kana'))
+                                    <tr>
+                                      <th>ERROR</th>
+                                      @foreach($errors->get('over_name_kana') as $message)
+                                      <td> {{ $message }} </td>
+                                      @endforeach
+                                    </tr>
+                                @endif
+                            </div>
                             <label class="d-block m-0" style="font-size:13px">セイ</label>
                             <div class="border-bottom border-primary" style="width:140px;">
                                 <input type="text" style="width:140px;" class="border-0 over_name_kana"
@@ -45,6 +75,16 @@
                             </div>
                         </div>
                         <div class="" style="width:140px">
+                            <div class="error_message">
+                                @if ($errors->has('under_name_kana'))
+                                    <tr>
+                                      <th>ERROR</th>
+                                      @foreach($errors->get('under_name_kana') as $message)
+                                      <td> {{ $message }} </td>
+                                      @endforeach
+                                    </tr>
+                                @endif
+                            </div>
                             <label class="d-block m-0" style="font-size:13px">メイ</label>
                             <div class="border-bottom border-primary" style="width:140px;">
                                 <input type="text" style="width:140px;" class="border-0 under_name_kana"
@@ -53,6 +93,16 @@
                         </div>
                     </div>
                     <div class="mt-3">
+                        <div class="error_message">
+                            @if ($errors->has('mail_address'))
+                                <tr>
+                                  <th>ERROR</th>
+                                  @foreach($errors->get('mail_address') as $message)
+                                  <td> {{ $message }} </td>
+                                  @endforeach
+                                </tr>
+                            @endif
+                        </div>
                         <label class="m-0 d-block" style="font-size:13px">メールアドレス</label>
                         <div class="border-bottom border-primary">
                             <input type="mail" class="w-100 border-0 mail_address" name="mail_address">
@@ -60,6 +110,16 @@
                     </div>
                 </div>
                 <div class="mt-3">
+                    <div class="error_message">
+                        @if ($errors->has('sex'))
+                            <tr>
+                              <th>ERROR</th>
+                              @foreach($errors->get('sex') as $message)
+                              <td> {{ $message }} </td>
+                              @endforeach
+                            </tr>
+                        @endif
+                    </div>
                     <input type="radio" name="sex" class="sex" value="1">
                     <label style="font-size:13px">男性</label>
                     <input type="radio" name="sex" class="sex" value="2">
@@ -68,6 +128,16 @@
                     <label style="font-size:13px">その他</label>
                 </div>
                 <div class="mt-3">
+                    <div class="error_message">
+                        @if ($errors->has('old_date'))
+                            <tr>
+                              <th>ERROR</th>
+                              @foreach($errors->get('old_date') as $message)
+                              <td> {{ $message }} </td>
+                              @endforeach
+                            </tr>
+                        @endif
+                    </div>
                     <label class="d-block m-0 aa" style="font-size:13px">生年月日</label>
                     <select class="old_year" name="old_year">
                         <option value="none">-----</option>
@@ -152,6 +222,16 @@
                     <label style="font-size:13px">日</label>
                 </div>
                 <div class="mt-3">
+                    <div class="error_message">
+                        @if ($errors->has('role'))
+                            <tr>
+                              <th>ERROR</th>
+                              @foreach($errors->get('role') as $message)
+                              <td> {{ $message }} </td>
+                              @endforeach
+                            </tr>
+                        @endif
+                    </div>
                     <label class="d-block m-0" style="font-size:13px">役職</label>
                     <input type="radio" name="role" class="admin_role role" value="1">
                     <label style="font-size:13px">教師(国語)</label>
@@ -172,12 +252,23 @@
                     @endforeach
                 </div>
                 <div class="mt-3">
+                    <div class="error_message">
+                        @if ($errors->has('password'))
+                            <tr>
+                              <th>ERROR</th>
+                              @foreach($errors->get('password') as $message)
+                              <td> {{ $message }} </td>
+                              @endforeach
+                            </tr>
+                        @endif
+                    </div>
                     <label class="d-block m-0" style="font-size:13px">パスワード</label>
                     <div class="border-bottom border-primary">
                         <input type="password" class="border-0 w-100 password" name="password">
                     </div>
                 </div>
                 <div class="mt-3">
+                    <p>{{$errors->has('password_confirmation')}}</p>
                     <label class="d-block m-0" style="font-size:13px">確認用パスワード</label>
                     <div class="border-bottom border-primary">
                         <input type="password" class="border-0 w-100 password_confirmation" name="password">
