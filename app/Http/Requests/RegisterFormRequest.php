@@ -75,7 +75,7 @@ class RegisterFormRequest extends FormRequest
             'under_name_kana.max' => 'メイは30文字以内で入力してください。',
             'over_name_kana.regex' => 'カタカナで入力してください。',
             'under_name_kana.regex' => 'カタカナで入力してください。',
-            'mail_address.unique' => '既に存在するメールアドレスです。',
+            'mail_address.unique' => '登録済のメールアドレスです。',
             'mail_address.email' => 'メール形式で入力してください。',
             'old_date.date' => '正しい日付を入力してください。',
             'old_date.before_or_equal' => '今日以前の日付で入力してください。',
