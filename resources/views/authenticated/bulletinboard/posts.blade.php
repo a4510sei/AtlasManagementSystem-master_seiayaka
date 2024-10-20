@@ -37,6 +37,13 @@
       <ul>
         @foreach($categories as $category)
         <li class="main_categories" category_id="{{ $category->id }}"><span>{{ $category->main_category }}<span></li>
+          @foreach($sub_categories as $sub_category)
+            @continue($sub_category->main_category_id !== $category->id)
+            <li class="main_categories" category_id="{{ $sub_category->id }}"><span>
+              <input type="submit" name="sub_category_posts" class="category_btn" value="{{ $sub_category->sub_category }}" form="postSearchRequest">
+              <span>
+            </li>
+          @endforeach
         @endforeach
       </ul>
     </div>
