@@ -57,13 +57,12 @@ class PostsController extends Controller
             'post_title' => $request->post_title,
             'post' => $request->post_body
         ]);
-        // DB最新化
-        $post->refresh();
         // 中間テーブル作成
-        $sub_category_id = $request->post_category_id;
-        $sub_categories = SubCategory::get();
-        $post_id = Post::latest()->orderBy('id', 'DESC')->value('id');
-        $post->sub_categories()->sync([$post_id, $sub_category_id]);
+        // 紐づくカテゴリーを登録
+        $post->sub_categories()->sync([1, 2]);
+        // $sub_category_id = $request->post_category_id;
+        // $post_id = Post::latest()->orderBy('id', 'DESC')->value('id');
+        // $post->sub_categories()->sync([$post_id, $sub_category_id]);
         return redirect()->route('post.show');
     }
 

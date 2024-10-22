@@ -15,8 +15,8 @@ class ChangePostSubCategoriesTable extends Migration
     {
         //
         Schema::table('post_sub_categories', function (Blueprint $table){
-            $table->integer('post_id')->index()->references('id')->on('post')->onDelete('cascade')->comment('投稿のid')->change(); ;
-            $table->integer('sub_category_id')->index()->references('id')->on('sub_categories')->onDelete('cascade')->comment('サブカテゴリーid')->change(); ;
+            $table->integer('post_id')->references('id')->on('post')->onDelete('cascade')->comment('投稿のid')->change(); ;
+            $table->integer('sub_category_id')->references('id')->on('sub_categories')->onDelete('cascade')->comment('サブカテゴリーid')->change(); ;
         });
     }
 

@@ -19,6 +19,6 @@ class SubCategory extends Model
 
     public function posts(){
         // リレーションの定義
-        return $this->belongsTo('App\Models\Posts\Post');
+        return $this->hasOne('App\Models\Posts\Post');
     }
 }
