@@ -25,7 +25,7 @@ class Post extends Model
 
     public function subCategories(){
         // リレーションの定義
-        return $this->hasOne('App\Models\Categories\SubCategory');
+        return $this->belongsToMany('App\Models\Categories\SubCategory');
     }
 
     // コメント数

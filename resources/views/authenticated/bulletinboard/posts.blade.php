@@ -4,6 +4,7 @@
 <div class="board_area w-100 border m-auto d-flex">
   <div class="post_view w-75 mt-5">
     <p class="w-75 m-auto">投稿一覧</p>
+    @if(!empty($posts))
     @foreach($posts as $post)
     <div class="post_area border w-75 m-auto p-3">
       <p><span>{{ $post->user->over_name }}</span><span class="ml-3">{{ $post->user->under_name }}</span>さん</p>
@@ -24,6 +25,7 @@
       </div>
     </div>
     @endforeach
+    @endif
   </div>
   <div class="other_area border w-25">
     <div class="border m-4">
@@ -40,7 +42,7 @@
           @foreach($sub_categories as $sub_category)
             @continue($sub_category->main_category_id !== $category->id)
             <li class="main_categories" category_id="{{ $sub_category->id }}"><span>
-              <input type="submit" name="sub_category_posts" class="category_btn" value="{{ $sub_category->sub_category }}" form="postSearchRequest">
+              <input type="submit" name="category_word" class="category_btn" value="{{ $sub_category->sub_category }}" form="postSearchRequest">
               <span>
             </li>
           @endforeach

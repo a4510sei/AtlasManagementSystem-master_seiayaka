@@ -27,8 +27,19 @@ class PostsController extends Controller
             ->where('post_title', 'like', '%'.$request->keyword.'%')
             ->orWhere('post', 'like', '%'.$request->keyword.'%')->get();
         }else if($request->category_word){
-            $sub_category = $request->category_word;
-            $posts = Post::with('user', 'postComments')->get();
+            // $sub_category = $request->category_word;
+            $sub_category_id = SubCategory::where('sub_category', $request->category_word)->value('id');
+            $sub_category = SubCategory::where('id', $sub_category_id )->first();
+            $post_sub_categories = $sub_category->posts->first();
+            if(!empty($post_sub_categories)){
+                $post_sub_categories = $sub_category->posts->first()->pivot;
+                $posts = Post::with('user', 'postComments')
+                ->whereIn('id', [$post_sub_categories->post_id])
+                ->get();
+            }else{
+            // サブカテゴリに紐づく投稿がnullだった時は投稿を表示しない
+                $posts = NULL;
+            }
         }else if($request->like_posts){
             $likes = Auth::user()->likePostId()->get('like_post_id');
             $posts = Post::with('user', 'postComments')
@@ -59,10 +70,9 @@ class PostsController extends Controller
         ]);
         // 中間テーブル作成
         // 紐づくカテゴリーを登録
-        $post->sub_categories()->sync([1, 2]);
-        // $sub_category_id = $request->post_category_id;
-        // $post_id = Post::latest()->orderBy('id', 'DESC')->value('id');
-        // $post->sub_categories()->sync([$post_id, $sub_category_id]);
+        $sub_category_id = $request->post_category_id;
+        $a = Post::first();
+        $a->subCategories()->attach($sub_category_id);
         return redirect()->route('post.show');
     }
 
@@ -136,4 +146,9 @@ class PostsController extends Controller
 
         return response()->json();
     }
+
+
+public function postSearchRequest(Request $request){
+
+}
 }
