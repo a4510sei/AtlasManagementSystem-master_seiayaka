@@ -19,15 +19,15 @@
       </select>
     </div>
     <div class="mt-3">
-      @if($errors->first('post_title'))
+      @if($errors->has('post_title'))
       <span class="error_message">{{ $errors->first('post_title') }}</span>
       @endif
       <p class="mb-0">タイトル</p>
       <input type="text" class="w-100" form="postCreate" name="post_title" value="{{ old('post_title') }}">
     </div>
     <div class="mt-3">
-      @if($errors->first('post_body'))
-      <span class="error_message">{{ $errors->first('post_body') }}</span>
+      @if($errors->has('post_body'))
+        <span class="error_message">{{ $errors->first('post_body') }}</span>
       @endif
       <p class="mb-0">投稿内容</p>
       <textarea class="w-100" form="postCreate" name="post_body">{{ old('post_body') }}</textarea>
@@ -42,7 +42,7 @@
     <div class="category_area mt-5 p-5">
       <div class="">
         <!-- メインカテゴリー -->
-        @if($errors->first('main_category'))
+        @if($errors->has('main_category'))
           <span class="error_message">{{ $errors->first('main_category') }}</span>
         @endif
         <p class="m-0">メインカテゴリー</p>
@@ -54,11 +54,11 @@
       <!-- サブカテゴリー -->
     <div class="category_area mt-5 p-5">
       <div class="">
-        @if($errors->first('main_category_id'))
+        @if($errors->has('main_category_id'))
           <span class="error_message">{{ $errors->first('main_category_id') }}</span>
           <br>
         @endif
-        @if($errors->first('sub_category'))
+        @if($errors->has('sub_category'))
           <span class="error_message">{{ $errors->first('sub_category') }}</span>
           <br>
         @endif

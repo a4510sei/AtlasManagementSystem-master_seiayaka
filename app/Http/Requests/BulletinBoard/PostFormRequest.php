@@ -41,21 +41,25 @@ class PostFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'post_title' => 'min:4|max:50',
-            'post_body' => 'min:10|max:500',
+            'post_category_id' => 'required_with:post_title,post_body|exists:sub_categories,id',
+            'post_title' => 'min:4|max:100',
+            //  メインカテゴリー、サブカテゴリー登録以外では入力必須
+            'post_body' => 'required_without_all:main_category_id,sub_category|min:10|max:5000',
             // メインカテゴリー、サブカテゴリーはどちらか入力必須
             'main_category' => 'required_without_all:main_category_id,sub_category,post_title,post_body|unique:main_categories|max:100',
             'main_category_id' => 'required_with:sub_category|exists:main_categories,id',
             'sub_category' => 'required_with:main_category_id|unique:sub_categories|max:100',
         ];
+
     }
 
     public function messages(){
         return [
+            'post_body.required_without_all' => '投稿内容は入力必須です。',
             'post_title.min' => 'タイトルは4文字以上入力してください。',
-            'post_title.max' => 'タイトルは50文字以内で入力してください。',
+            'post_title.max' => 'タイトルは100文字以内で入力してください。',
             'post_body.min' => '内容は10文字以上入力してください。',
-            'post_body.max' => '最大文字数は500文字です。',
+            'post_body.max' => '内容は5000文字以内で入力してください。。',
             'main_category.max' => 'カテゴリー名は100文字以内で入力してください。',
             'sub_category.max' => 'カテゴリー名は100文字以内で入力してください。',
             'main_category.required_without_all' => 'メインカテゴリー名、サブカテゴリーのどちらかは入力必須です。',

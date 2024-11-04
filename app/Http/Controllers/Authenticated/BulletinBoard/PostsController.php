@@ -11,8 +11,10 @@ use App\Models\Posts\Post;
 use App\Models\Posts\PostComment;
 use App\Models\Posts\Like;
 use App\Models\Users\User;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\BulletinBoard\PostFormRequest;
 use Auth;
+use DB;
 
 class PostsController extends Controller
 {
@@ -63,20 +65,27 @@ class PostsController extends Controller
     }
 
     public function postCreate(PostFormRequest $request){
-        $post = Post::create([
-            'user_id' => Auth::id(),
-            'post_title' => $request->post_title,
-            'post' => $request->post_body
-        ]);
-        // 中間テーブル作成
-        // 紐づくカテゴリーを登録
-        $sub_category_id = $request->post_category_id;
-        $a = Post::first();
-        $a->subCategories()->attach($sub_category_id);
-        return redirect()->route('post.show');
+        DB::beginTransaction();
+        try{
+            $post = Post::create([
+                'user_id' => Auth::id(),
+                'post_title' => $request->post_title,
+                'post' => $request->post_body
+            ]);
+            // 中間テーブル作成
+            // 紐づくカテゴリーを登録
+            $sub_category_id = $request->post_category_id;
+            $sub_category = Post::orderBy('created_at', 'DESC')->orderBy('id', 'DESC')->first();
+            $sub_category->subCategories()->attach($sub_category_id);
+            return redirect()->route('post.show');
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->route('post.input');
+        }
     }
 
-    public function postEdit(Request $request){
+    public function postEdit(PostFormRequest $request){
+        dd($request);
         Post::where('id', $request->post_id)->update([
             'post_title' => $request->post_title,
             'post' => $request->post_body,

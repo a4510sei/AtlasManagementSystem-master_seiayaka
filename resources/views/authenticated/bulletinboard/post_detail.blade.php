@@ -8,8 +8,11 @@
           <div>
           </div>
           <div>
+            <?php $user_id = Auth::id() ?>
+            @if($post->user_id == $user_id)
             <span class="edit-modal-open" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}">編集</span>
             <a href="{{ route('post.delete', ['id' => $post->id]) }}">削除</a>
+            @endif
           </div>
         </div>
 
