@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Authenticated\BulletinBoard;
 
 
+use \Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Categories\MainCategory;
@@ -84,13 +85,28 @@ class PostsController extends Controller
         }
     }
 
-    public function postEdit(PostFormRequest $request){
-        dd($request);
-        Post::where('id', $request->post_id)->update([
-            'post_title' => $request->post_title,
-            'post' => $request->post_body,
+    public function postEdit(Request $request){
+        // バリデーション実行
+        $validator = Validator::make($request->all(), [
+          'post_title' => ['string', 'min:4', 'max:100'],
+          'post_body' => ['string', 'min:10', 'max:5000'],
         ]);
-        return redirect()->route('post.detail', ['id' => $request->post_id]);
+        // バリデーションが通らなかった時の処理（ここではリダイレクト）
+        if ($validator->fails()) {
+            $messages = $validator->messages();
+            if($messages->has('post_title')){
+                $error_message = $messages->first('post_title');
+            }else if($messages->has('post_body')){
+                $error_message = $messages->first('post_body');
+            }
+            return response()->json($error_message, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }else{
+            Post::where('id', $request->post_id)->update([
+                'post_title' => $request->post_title,
+                'post' => $request->post_body,
+            ]);
+            return redirect()->route('post.detail', ['id' => $request->post_id]);
+        }
     }
 
     public function postDelete($id){
