@@ -4,6 +4,15 @@
   <div class="w-50 mt-5">
     <div class="m-3 detail_container">
       <div class="p-3">
+          @if ($errors->any())
+          <div class="error_message">
+            <ol>
+              @foreach ($errors->all() as $error)
+               <li><span class="error_message">{{ $error }}</span></li>
+              @endforeach
+            </ol>
+          </div>
+          @endif
         <div class="detail_inner_head">
           <div>
           </div>

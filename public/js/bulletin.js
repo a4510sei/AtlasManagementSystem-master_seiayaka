@@ -137,7 +137,7 @@ $(function () {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
       method: "post",
-      url: "/bulletin_board/edit",
+      url: "/bulletin_board/edit/",
       data: {
         post_title: $('.modal-inner-title input').val(post_title),
         post_body: $('.modal-inner-body textarea').text(post_body),
@@ -145,26 +145,6 @@ $(function () {
       },
       // バリデーションチェック後に実行
     })
-      .done(function (error_message) {
-        var error_message = '<?php echo $error_message; ?>';
-        console.log(error_message);
-        if (!error_message) {
-          // do something
-          const node1 = document.getElementsByClassName("error_message");
-          node1[0].innerHTML = error_message;
-        } else {
-          $('.js-modal').fadeOut();
-          return false;
-        }
-      })
-      .fail(function (error) {
-        console.log('失敗');
-        if (error.status === 422) {
-          $.each(error.responseJSON, function (id, val) {
-            $('#add_task_table').after(`<span class=\"help-block has-error\"> <strong>${val}</strong></span>`);
-          });
-        }
-      });
   });
 
 });

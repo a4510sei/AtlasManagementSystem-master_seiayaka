@@ -99,7 +99,9 @@ class PostsController extends Controller
             }else if($messages->has('post_body')){
                 $error_message = $messages->first('post_body');
             }
-            return response()->json($error_message, Response::HTTP_UNPROCESSABLE_ENTITY);
+            $id = $request->post_id;
+            $post =  Post::where('id', $request->post_id)->get();
+            return redirect()->back()->withErrors($validator)->withInput();
         }else{
             Post::where('id', $request->post_id)->update([
                 'post_title' => $request->post_title,
@@ -149,13 +151,11 @@ class PostsController extends Controller
     public function postLike(Request $request){
         $user_id = Auth::id();
         $post_id = $request->post_id;
-
+        Like::create([
+            'like_post_id' => $request->post_id,
+            'like_user_id' => Auth::id(),
+        ]);
         $like = new Like;
-
-        $like->like_user_id = $user_id;
-        $like->like_post_id = $post_id;
-        $like->save();
-
         return response()->json();
     }
 
