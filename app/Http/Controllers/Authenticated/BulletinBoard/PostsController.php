@@ -14,6 +14,8 @@ use App\Models\Posts\Like;
 use App\Models\Users\User;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\BulletinBoard\PostFormRequest;
+use App\Http\Requests\BulletinBoard\CommentFormRequest;
+use Carbon\Carbon;
 use Auth;
 use DB;
 
@@ -30,7 +32,6 @@ class PostsController extends Controller
             ->where('post_title', 'like', '%'.$request->keyword.'%')
             ->orWhere('post', 'like', '%'.$request->keyword.'%')->get();
         }else if($request->category_word){
-            // $sub_category = $request->category_word;
             $sub_category_id = SubCategory::where('sub_category', $request->category_word)->value('id');
             $sub_category = SubCategory::where('id', $sub_category_id )->first();
             $post_sub_categories = $sub_category->posts->first();
@@ -66,12 +67,13 @@ class PostsController extends Controller
     }
 
     public function postCreate(PostFormRequest $request){
-        DB::beginTransaction();
+        $created_at = Carbon::now()->format('Y-m-d H:i:s');
         try{
-            $post = Post::create([
+            $post = Post::insert([
                 'user_id' => Auth::id(),
                 'post_title' => $request->post_title,
-                'post' => $request->post_body
+                'post' => $request->post_body,
+                'created_at' => now(),
             ]);
             // 中間テーブル作成
             // 紐づくカテゴリーを登録
@@ -80,6 +82,7 @@ class PostsController extends Controller
             $sub_category->subCategories()->attach($sub_category_id);
             return redirect()->route('post.show');
         }catch(\Exception $e){
+            dd($e);
             DB::rollback();
             return redirect()->route('post.input');
         }
@@ -126,13 +129,18 @@ class PostsController extends Controller
         return redirect()->route('post.input');
     }
 
-    public function commentCreate(Request $request){
-        PostComment::create([
-            'post_id' => $request->post_id,
-            'user_id' => Auth::id(),
-            'comment' => $request->comment
-        ]);
-        return redirect()->route('post.detail', ['id' => $request->post_id]);
+    public function commentCreate(CommentFormRequest $request){
+        try{
+            PostComment::create([
+                'post_id' => $request->post_id,
+                'user_id' => Auth::id(),
+                'comment' => $request->comment
+            ]);
+            return redirect()->route('post.detail', ['id' => $request->post_id]);
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->route('post.detail', ['id' => $request->post_id]);
+            }
     }
 
     public function myBulletinBoard(){

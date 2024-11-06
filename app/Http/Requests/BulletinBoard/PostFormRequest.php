@@ -50,7 +50,7 @@ class PostFormRequest extends FormRequest
             'main_category_id' => 'required_with:sub_category|exists:main_categories,id',
             'sub_category' => 'required_with:main_category_id|unique:sub_categories|max:100',
         ];
-
+        return $rules;
     }
 
     public function messages(){

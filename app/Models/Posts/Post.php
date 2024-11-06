@@ -25,7 +25,9 @@ class Post extends Model
 
     public function subCategories(){
         // リレーションの定義
-        return $this->belongsToMany('App\Models\Categories\SubCategory');
+        return $this->belongsToMany('App\Models\Categories\SubCategory')
+                            ->withPivot(['post_id']);
+
     }
 
     // コメント数

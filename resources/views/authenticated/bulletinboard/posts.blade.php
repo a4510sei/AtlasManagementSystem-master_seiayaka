@@ -11,20 +11,30 @@
       <p><a href="{{ route('post.detail', ['id' => $post->id]) }}">{{ $post->post_title }}</a></p>
       <div class="post_bottom_area d-flex">
         <div class="d-flex post_status">
+         <div class="mr-5">
+            <!-- postからsub_categoryを取得 -->
+            <?php
+              $post_sub_categories = DB::select(
+                'SELECT sub_category_id FROM posts inner join post_sub_category ON posts.id = post_sub_category.post_id WHERE posts.id =:id', ['id'=>$post->id]);
+              $sub_category_id = $post_sub_categories[0]->sub_category_id;
+              $post_category = DB::table('sub_categories')->where('id',$sub_category_id)->first();
+            ?>
+            <span class="category_btn">{{$post_category->sub_category}}</span>
+           </div>
           <div class="mr-5">
             <i class="fa fa-comment"></i><span class=""></span>
+            <?php $comment_count = DB::table('post_comments')->where('post_id', $post->id)->count() ?>
+            <span class="comment_counts{{ $post->id }}">{{ $comment_count }}</span>
           </div>
           <div>
             <?php $like_count = DB::table('likes')->where('like_post_id', $post->id)->count() ?>
             @if(Auth::user()->is_Like($post->id))
             <p class="m-0"><i class="fas fa-heart un_like_btn" post_id="{{ $post->id }}"></i>
-            <span>{{ $like_count }}</span>
-            <!-- <span class="like_counts{{ $post->id }}"></span> -->
+            <span class="like_counts{{ $post->id }}">{{ $like_count }}</span>
             </p>
             @else
             <p class="m-0"><i class="fas fa-heart like_btn" post_id="{{ $post->id }}"></i>
-            <span>{{ $like_count }}</span>
-            <!-- <span class="like_counts{{ $post->id }}"></span> -->
+            <span class="like_counts{{ $post->id }}">{{ $like_count }}</span>
           </p>
             @endif
           </div>

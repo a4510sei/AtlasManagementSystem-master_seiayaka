@@ -4,14 +4,11 @@
   <div class="w-50 mt-5">
     <div class="m-3 detail_container">
       <div class="p-3">
-          @if ($errors->any())
-          <div class="error_message">
-            <ol>
-              @foreach ($errors->all() as $error)
-               <li><span class="error_message">{{ $error }}</span></li>
-              @endforeach
-            </ol>
-          </div>
+          @if($errors->has('post_title'))
+            <span class="error_message">{{ $errors->first('post_title') }}</span>
+          @endif
+          @if($errors->has('post_body'))
+            <span class="error_message">{{ $errors->first('post_body') }}</span>
           @endif
         <div class="detail_inner_head">
           <div>
@@ -20,7 +17,7 @@
             <?php $user_id = Auth::id() ?>
             @if($post->user_id == $user_id)
             <span class="edit-modal-open" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}">編集</span>
-            <a href="{{ route('post.delete', ['id' => $post->id]) }}">削除</a>
+            <a href="{{ route('post.delete', ['id' => $post->id]) }} " onclick="return confirm('削除してよろしいでしょうか？')">削除</a>
             @endif
           </div>
         </div>
@@ -55,6 +52,9 @@
   <div class="w-50 p-3">
     <div class="comment_container border m-5">
       <div class="comment_area p-3">
+          @if($errors->has('comment'))
+            <span class="error_message">{{ $errors->first('comment') }}</span>
+          @endif
         <p class="m-0">コメントする</p>
         <textarea class="w-100" name="comment" form="commentRequest"></textarea>
         <input type="hidden" name="post_id" form="commentRequest" value="{{ $post->id }}">

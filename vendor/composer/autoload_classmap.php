@@ -37,6 +37,7 @@ return array(
     'App\\Http\\Middleware\\TrimStrings' => $baseDir . '/app/Http/Middleware/TrimStrings.php',
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
+    'App\\Http\\Requests\\BulletinBoard\\CommentFormRequest' => $baseDir . '/app/Http/Requests/BulletinBoard/CommentFormRequest.php',
     'App\\Http\\Requests\\BulletinBoard\\PostFormRequest' => $baseDir . '/app/Http/Requests/BulletinBoard/PostFormRequest.php',
     'App\\Http\\Requests\\RegisterFormRequest' => $baseDir . '/app/Http/Requests/RegisterFormRequest.php',
     'App\\Models\\Calendars\\ReserveSettings' => $baseDir . '/app/Models/Calendars/ReserveSettings.php',
