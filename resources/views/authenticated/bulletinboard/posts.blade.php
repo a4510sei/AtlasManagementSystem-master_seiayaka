@@ -15,7 +15,7 @@
             <!-- postからsub_categoryを取得 -->
             <?php
               $post_sub_categories = DB::select(
-                'SELECT sub_category_id FROM posts inner join post_sub_category ON posts.id = post_sub_category.post_id WHERE posts.id =:id', ['id'=>$post->id]);
+                'SELECT sub_category_id FROM posts inner join post_sub_categories ON posts.id = post_sub_categories.post_id WHERE posts.id =:id', ['id'=>$post->id]);
               $sub_category_id = $post_sub_categories[0]->sub_category_id;
               $post_category = DB::table('sub_categories')->where('id',$sub_category_id)->first();
             ?>
