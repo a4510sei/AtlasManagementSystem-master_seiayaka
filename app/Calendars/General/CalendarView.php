@@ -39,9 +39,8 @@ class CalendarView{
       foreach($days as $day){
         $startDay = $this->carbon->copy()->format("Y-m-01");
         $toDay = $this->carbon->copy()->format("Y-m-d");
-
         if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
-          $html[] = '<td class="calendar-td">';
+          $html[] = '<td class="past-day calendar-td">';
         }else{
           $html[] = '<td class="calendar-td '.$day->getClassName().'">';
         }
