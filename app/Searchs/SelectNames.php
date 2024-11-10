@@ -24,6 +24,7 @@ class SelectNames implements DisplayUsers{
       ->orWhere('under_name_kana', 'like', '%'.$keyword.'%');
     })->whereIn('sex', $gender)
     ->whereIn('role', $role)
+    ->whereIn('subjects.id', $subjects)
     ->orderBy('over_name_kana', $updown)->get();
 
     return $users;
