@@ -40,12 +40,13 @@ class CalendarView{
         $startDay = $this->carbon->copy()->format("Y-m-01");
         $toDay = $this->carbon->copy()->format("Y-m-d");
         if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
+          // 今日以前の場合
           $html[] = '<td class="past-day calendar-td">';
         }else{
           $html[] = '<td class="calendar-td '.$day->getClassName().'">';
         }
         $html[] = $day->render();
-
+        // 予約枠が存在する
         if(in_array($day->everyDay(), $day->authReserveDay())){
           $reservePart = $day->authReserveDate($day->everyDay())->first()->setting_part;
           if($reservePart == 1){
@@ -56,14 +57,26 @@ class CalendarView{
             $reservePart = "リモ3部";
           }
           if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
+          // 今日以前の場合
             $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px"></p>';
+          // 2024/11/10：予約していない場合は受付終了の文言を表示し、予約している場合は、参加した部数を表示させる
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
+            if(empty($day->authReserveDate($day->everyDay())->first())){
+              $html[] = '<p>受付終了</p>';
+            }else{
+              $html[] = '<p>'.$reservePart.'</p>';
+            }
           }else{
             $html[] = '<button type="submit" class="btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="'. $day->authReserveDate($day->everyDay())->first()->setting_reserve .'">'. $reservePart .'</button>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }
         }else{
-          $html[] = $day->selectPart($day->everyDay());
+          // 予約枠が存在しない：予約不可能のため、すべて「受付終了」とする
+          if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
+            $html[] = '<p>受付終了</p>';
+          }else{
+            $html[] = $day->selectPart($day->everyDay());
+          }
         }
         $html[] = $day->getDate();
         $html[] = '</td>';
