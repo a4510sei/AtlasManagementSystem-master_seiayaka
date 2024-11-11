@@ -44,7 +44,7 @@ class PostFormRequest extends FormRequest
             'post_category_id' => 'required_with:post_title,post_body|exists:sub_categories,id',
             'post_title' => 'min:4|max:100',
             //  メインカテゴリー、サブカテゴリー登録以外では入力必須
-            'post_body' => 'required_without_all:main_category_id,sub_category|min:10|max:5000',
+            'post_body' => 'required_without_all:main_category,sub_category|min:10|max:5000',
             // メインカテゴリー、サブカテゴリーはどちらか入力必須
             'main_category' => 'required_without_all:main_category_id,sub_category,post_title,post_body|unique:main_categories|max:100',
             'main_category_id' => 'required_with:sub_category|exists:main_categories,id',
