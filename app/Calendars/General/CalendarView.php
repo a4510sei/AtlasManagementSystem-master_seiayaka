@@ -73,9 +73,11 @@ class CalendarView{
         }else{
           // 予約枠が存在しない：予約不可能のため、すべて「受付終了」とする
           if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
+            $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
             $html[] = '<p>受付終了</p>';
           }else{
             $html[] = $day->selectPart($day->everyDay());
+
           }
         }
         $html[] = $day->getDate();
