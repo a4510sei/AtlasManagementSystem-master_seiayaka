@@ -55,6 +55,10 @@ li {
   background: #D3D3D3;
 }
 
+.past-day-text {
+  color: #000;
+}
+
 .calendar-td {
   min-width: 100px;
 }
